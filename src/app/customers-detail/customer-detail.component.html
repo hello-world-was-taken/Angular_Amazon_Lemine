@@ -1,0 +1,63 @@
+<form (ngSubmit)="updateCustomer(f)" #f="ngForm">
+    <div class="form-group">
+      <!--First Name-->
+      <div>
+        <label for="firstName">First Name</label>
+        <input
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          type="text"
+          ngModel
+          required
+          #firstName="ngModel"
+        />
+      </div>
+      <!--Last Name-->
+      <div>
+        <label for="lastName">Last Name</label>
+        <input
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          type="text"
+          ngModel
+          required
+          #lastName="ngModel"
+        />
+      </div>
+      <!--Age-->
+      <div>
+        <label for="age">Age</label>
+        <input
+          class="form-control"
+          id="age"
+          name="age"
+          type="number"
+          ngModel
+          required
+          #age="ngModel"
+        />
+      </div>
+      <!--Birthday-->
+      <div>
+        <label for="doe">Birthday</label>
+        <input
+          class="form-control"
+          id="doe"
+          name="birthDate"
+          type="date"
+          ngModel
+          required
+          #birthDate="ngModel"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
+        Update
+      </button>
+      <button type="button" class="btn btn-primary" (click)="deleteCustomer()">
+        Delete
+      </button>
+    </div>
+  </form>
+  

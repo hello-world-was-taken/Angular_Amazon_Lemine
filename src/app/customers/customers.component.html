@@ -1,0 +1,113 @@
+<div style="display: flex;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let customer of customers" style="width: 400px;">
+      <div style="padding: 10px">
+        <div style="margin: 10px; display: inline-block; width: 200px; text-align: center;">
+          <span>{{ customer.firstName }}</span> <span>{{ customer.lastName }} </span> <span>{{customer.age}}</span>
+        </div>
+        <div style="display: flex">
+          <button class="btn btn-primary" (click)="viewDetail(customer.id)">
+            Details
+          </button>
+          <button style="margin-left: 10px" class="btn btn-primary" (click)="onDelete(customer.id)">
+            Delete
+          </button>
+          <button style="margin-left: 10px;" type="submit" class="btn btn-primary" (click)="update(customer.id)">
+            Update
+          </button>
+          <!-- <button type="reset" style="margin-left: 10px" class="btn btn-primary" (click)="updateCustomer(customer.id, f)">
+            updateCustomer Customer
+          </button> -->
+        </div>
+      </div>
+    </li>
+    <!-- <app-customers></app-customers> -->
+</ul>
+
+
+
+
+
+<div style="width: 450px; padding: 30px;">
+  <form id="my_form" (ngSubmit)="updateCustomerForm(f)" #f="ngForm">
+    <div class="form-group">
+      <!--First Name-->
+  
+      <!-- <div>
+        <label for="firstName">ID</label>
+        <input
+          class="form-control"
+          id="id"
+          name="id"
+          type="text"
+          ngModel
+          required
+          #id="ngModel"
+        />
+      </div> -->
+  
+      <div>
+        <label for="firstName">First Name</label>
+        <input
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          type="text"
+          ngModel
+          required
+          #firstName="ngModel"
+          value=""
+        />
+      </div>
+      <!--Last Name-->
+      <div>
+        <label for="lastName">Last Name</label>
+        <input
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          type="text"
+          ngModel
+          required
+          #lastName="ngModel"
+        />
+      </div>
+      <!--Age-->
+      <div>
+        <label for="age">Age</label>
+        <input
+          class="form-control"
+          id="age"
+          name="age"
+          type="number"
+          ngModel
+          required
+          #age="ngModel"
+        />
+      </div>
+      <!--Birthday-->
+      <div>
+        <label for="doe">Birthday</label>
+        <input
+          class="form-control"
+          id="doe"
+          name="birthDate"
+          type="date"
+          ngModel
+          required
+          #birthDate="ngModel"
+        />
+      </div>
+      <button style="margin-top: 20px" type="submit" class="btn btn-primary" (click)="updateCustomerForm(f)">
+        Update
+      </button>
+      
+      <button style="margin-left: 20px; margin-top: 20px" type="submit" class="btn btn-primary" (click)="createCustomerForm(f)">
+        Create Customer
+      </button>
+
+    </div>
+  </form>
+</div>
+
+</div>
