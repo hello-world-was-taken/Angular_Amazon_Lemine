@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
     this.productList = this.productList.filter(p=> 
       {
         console.log(p.name.substring(0, len) == query)
-        if(p.name.toLowerCase().substring(0, len) == query) {
+        if(p.name.toLowerCase().includes(query)) {
           searchList.push(p)
         }
       }

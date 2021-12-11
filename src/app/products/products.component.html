@@ -1,79 +1,128 @@
-<div style="display: flex">
-  <div>
+<div style="display: flex;">
+  
+  
+  <div style="display: block;">
     <input type="search" name="search" (keyup)="search($event)">
   </div>
-    <div class="card" *ngFor="let product of productList" style="width: 18rem; margin-top:20px ">
-        
-        <div *ngIf="productList.length > 1; else elseBlock" class="card-body">
-          <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
-            <h5 class="card-title">{{product.name}}</h5>
-            <p class="card-text">{{product.description}}</p>
-            <button class="btn btn-primary" (click)="onViewDetail(product.id)">View Detail</button>
-            <button class="btn btn-primary" style="margin-left: 10px" (click)="onDelete(product.id)">Delete Product</button>
-        </div>
-        <ng-template #elseBlock>
+  
 
-            <div style="width: 100vw; height: 100vh; background-color: white;">
-            
-              <div style="display: flex; width: 30rem; justify-content: space-between; margin: auto; box-shadow: 4px 2px 8px lightgray; padding: 20px;">
-                <div style="width: 40%;">
-                    <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
-                    <h5 class="card-title">{{product.name}}</h5>
-                    <p class="card-text">{{product.description}}</p>
-                    <p class="card-text">{{product.price}}</p>
-                </div>
+  <div *ngFor="let product of productList" style="width: 18rem; margin-top:20px;display: block;">
+    <div *ngIf="productList.length > 1; then thenBlock else elseBlock" class="card-body">
+    </div>
     
-    
-                <div style="width: 40%;">
-                    <form (ngSubmit)="updateProduct(f)" #f="ngForm">
-                        <div style="width: 100%" class="form-group">
-                          <label for="productName">Name</label>
-                          <input
-                            class="form-control"
-                            id="productName"
-                            name="name"
-                            type="text"
-                            ngModel
-                            required
-                            #name="ngModel"
-                          />
-                          <div
-                            *ngIf="name.invalid && (name.dirty || name.touched)"
-                            class="alert alert-danger"
-                          >
-                            <div *ngIf="name.errors && name.errors['required']">
-                              Name is required.
-                            </div>
-                            <div *ngIf="name.errors && name.errors['min length']">
-                              Name must be at least 4 characters long.
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="price">Price</label>
-                          <input
-                            size="30"
-                            class="form-control"
-                            id="price"
-                            type="number"
-                            name="price"
-                            ngModel
-                            required
-                            #price="ngModel"
-                          />
-                        </div>
-                        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
-                          Submit
-                        </button>
-                      </form>
-                </div>
-            </div>
-            
-            </div>
-            
+
+    <ng-template #thenBlock>
+
+      <div class="card">
+        <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
+        
+        
+        <div *ngIf="product.price < 500; then discountBlock else normalBlock">
+        </div>
+        
+        <ng-template #discountBlock>
+          <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
         </ng-template>
 
-
+        <ng-template #normalBlock>
+          <p class="card-text">Price: {{product.price}} $</p>
+        </ng-template>
         
-    </div>
+        <button class="btn btn-primary" (click)="onViewDetail(product.id)">View Detail</button>
+        <button class="btn btn-primary" style="margin-left: 10px" (click)="onDelete(product.id)">Delete Product</button>
+      </div>
+       
+    </ng-template>
+
+    <ng-template #elseBlock>
+      
+
+      <div class="card">      
+        
+        <div>
+          
+          
+          <div style="width: 40%;">
+            <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
+            <h5 class="card-title">{{product.name}}</h5>
+            <p class="card-text">{{product.description}}</p>
+
+            <div *ngIf="product.price < 500; then discountBlock else normalBlock">
+            </div>
+            
+            <ng-template #discountBlock>
+              <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
+            </ng-template>
+    
+            <ng-template #normalBlock>
+              <p class="card-text">Price: {{product.price}} $</p>
+            </ng-template>
+
+          </div>
+
+          
+          <div style="width: 40%;">  
+            <form (ngSubmit)="updateProduct(f)" #f="ngForm">
+              
+              
+              <div style="width: 100%" class="form-group">
+                <label for="productName">Name</label>
+                <input
+                  class="form-control"
+                  id="productName"
+                  name="name"
+                  type="text"
+                  ngModel
+                  required
+                  #name="ngModel"
+                />
+                
+                
+                <div
+                  *ngIf="name.invalid && (name.dirty || name.touched)"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="name.errors && name.errors['required']">
+                  Name is required.
+                  </div>
+                  <div *ngIf="name.errors && name.errors['min length']">
+                    Name must be at least 4 characters long.
+                  </div>
+                </div>
+              </div>
+            
+              
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input
+                  size="30"
+                  class="form-control"
+                  id="price"
+                  type="number"
+                  name="price"
+                  ngModel
+                  required
+                  #price="ngModel"
+                />
+              </div>
+              
+              
+              <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
+                Submit
+              </button>
+           
+            </form>
+          
+          </div>
+        
+        </div>
+      
+      </div>
+    
+    </ng-template>
+  
+  </div>
+
 </div>
