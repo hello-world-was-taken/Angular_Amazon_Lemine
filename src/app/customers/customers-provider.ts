@@ -5,8 +5,8 @@ class CustomersProvider {
   private static customers: Customer[] = [
     {
       id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
+      firstName: 'Hailemariam',
+      lastName: 'Arega',
       birthDate: new Date('10/10/2010'),
       age: 20,
     },

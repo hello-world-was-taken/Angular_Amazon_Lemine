@@ -103,5 +103,23 @@ export class CustomersComponent implements OnInit {
 
   }
 
+  search(event: any) {
+    this.customers = this.customers2
+    let query: string = event.target.value
+    query = query.trim()
+    let len = query.length
+    let searchList: Customer[] = []
+    this.customers = this.customers.filter(p=> 
+      {
+        console.log(p.firstName.substring(0, len) == query)
+        if(p.firstName.toLowerCase().includes(query)) {
+          searchList.push(p)
+        }
+      }
+      )
+    this.customers = searchList
+    console.log(this.customers)
+  }
+
 
 }

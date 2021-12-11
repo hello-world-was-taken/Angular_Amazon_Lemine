@@ -1,10 +1,68 @@
-<ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="customers">Customers</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="products">Products</a>
-    </li>
-  </ul>
-  <router-outlet></router-outlet>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .contianer {
+    position: sticky;
+    top: 0px;
+    display: flex;
+    background-color: black;
+    
+    justify-content: space-between;
+    color: white;
+
+    height: 80px;
+    align-items: center;
+    /* margin-bottom:; */
+    box-shadow: 2px 2px 8px lightgray;
+  }
+
+  .link {
+    margin-left: 40px;
+    display: flex;
+  }
+
+  input {
+    padding: 10px;
+    margin-right: 40px;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    margin-right: 30px;
+    font-size: larger;
+    padding: 20px;
+    height: 100%;
+  }
+  a:visited {
+    background-color: black;
+    color: white;
+  }
+  
+  a:hover {
+    background-color: white;
+    color: black;
+  }
+
+</style>
+
+<div class="contianer">
+  <span style="font-size: 40px; margin-left: 30px;">
+    AMAZON LEMINE
+  </span>
+  <div class="link">
+    <a class="nav-link" routerLink="customers">Customers</a>
+    <a class="nav-link" routerLink="products">Products</a>
+  </div>
+  <!-- <div>
+    <input id="search" type="search" name="search" (keyup)="search($event)" size="50" autofocus placeholder="Search">
+  </div> -->
+
+</div>
+
+<router-outlet></router-outlet>
   

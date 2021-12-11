@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Product, PRODUCTS } from './products.object';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Carted } from './carted.object';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -17,6 +19,12 @@ export class ProductsComponent implements OnInit {
   // }
   productList = PRODUCTS;
   productList2 = PRODUCTS;
+  nikeCarted = 0
+  adidasCarted = 0
+  public cartedList: Carted[] = []
+  public totalPrice = 0
+
+  
   constructor(private router:Router) { }
 
   ngOnInit(): void {
@@ -59,5 +67,23 @@ export class ProductsComponent implements OnInit {
       )
     this.productList = searchList
     console.log(this.productList)
+  }
+
+  addToCart(id: number, name: string, price: number) {
+    // if (this.cartedList != undefined) {
+    //   this.cartedList = this.productList.find(p=> p.id == id)
+    // }
+    // this.productList.find(p=> p.id == id)!
+    this.cartedList!.push({
+      id: id, name: name, price: price
+    })
+    this.totalPrice += price
+    // console.log(this.cartedList?.length)
+  }
+
+  remove(id: number) {
+    let temp = this.cartedList.find(p=>p.id == id)
+    this.totalPrice -= temp!.price
+    this.cartedList = this.cartedList.filter(p=> p.id != id)
   }
 }

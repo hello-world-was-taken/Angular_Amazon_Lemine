@@ -1,128 +1,177 @@
-<div style="display: flex;">
+<style>
+  #search:active {
+    border-color: lightgray;
+  }
+  .btn:hover {
+    transform: translate(1.1);
+  }
+</style>
+<div style="display: flex; flex-direction: column;">
   
   
-  <div style="display: block;">
-    <input type="search" name="search" (keyup)="search($event)">
+  <div style="display: flex; justify-content: center; width: 100vw;  background-color: black; height: 60px;  position: fixed;">
+    <input id="search" type="search" name="search" (keyup)="search($event)" size="60" autofocus style="padding: 10px; border-radius: 5px; border:2px solid lightgray; position: fixed;" placeholder="Search">
   </div>
-  
 
-  <div *ngFor="let product of productList" style="width: 18rem; margin-top:20px;display: block;">
-    <div *ngIf="productList.length > 1; then thenBlock else elseBlock" class="card-body">
-    </div>
-    
-
-    <ng-template #thenBlock>
-
-      <div class="card">
-        <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
-        <h5 class="card-title">{{product.name}}</h5>
-        <p class="card-text">{{product.description}}</p>
-        
-        
-        <div *ngIf="product.price < 500; then discountBlock else normalBlock">
-        </div>
-        
-        <ng-template #discountBlock>
-          <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
-        </ng-template>
-
-        <ng-template #normalBlock>
-          <p class="card-text">Price: {{product.price}} $</p>
-        </ng-template>
-        
-        <button class="btn btn-primary" (click)="onViewDetail(product.id)">View Detail</button>
-        <button class="btn btn-primary" style="margin-left: 10px" (click)="onDelete(product.id)">Delete Product</button>
-      </div>
-       
+  <div *ngIf="cartedList.length != 0; then me else notme" class="cart"></div>
+    <ng-template #me>
+      <p style="margin: 100px 0 0 0; position: fixed;">
+        <span style="padding: 10px; margin-left: 10px; background-color: black; color: white; border: none; border-radius: 5px;">
+          You have carted:
+        </span> 
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="border: none;background-color: black; color: white; padding: 10px 10px 10px 10px; border-radius: 5px;" *ngFor="let carted of cartedList">
+          <span >{{carted.name}} <button style="height: inherit;background-color: red; padding: 3px 10px; color: white; border:none; " (click)="remove(carted.id)"> <b> -- </b></button></span>
+        </span>
+        &nbsp;&nbsp;
+        <a style=" text-decoration: none; font-weight: bolder; padding: 10px; background-color: black; color: white; " href="#detail">DETAIL</a>
+      </p>
     </ng-template>
 
-    <ng-template #elseBlock>
+    <ng-template #notme>
+      <p style="margin: 100px 0 0 0">
+        <span style="padding: 10px; margin-left: 10px; background-color: black; color: white; border: none; border-radius: 5px;">
+          You have not carted Anything:
+        </span>
+      </p>
+    </ng-template>
+  
+
+  <div style="width: 100vw; display: flex; flex-wrap: wrap; justify-content: center; margin-top: 70px;">
+    <div *ngFor="let product of productList"style="width: 22%; margin: 10px;">
+      <div *ngIf="productList.length > 1; then thenBlock else elseBlock" class="card-body">
+      </div>
       
-
-      <div class="card">      
-        
-        <div>
+  
+      <ng-template #thenBlock>
+  
+        <div style="display: block; height: 100%; box-shadow: 1px 1px 4px lightgray; border-radius: 5px;">
+          <img [src]="product.imageUrl" class="card-img-top" alt="productImg" style="width: 100%; height: 60%">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.description}}</p>
           
           
-          <div style="width: 40%;">
-            <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
-            <h5 class="card-title">{{product.name}}</h5>
-            <p class="card-text">{{product.description}}</p>
-
-            <div *ngIf="product.price < 500; then discountBlock else normalBlock">
-            </div>
-            
-            <ng-template #discountBlock>
-              <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
-            </ng-template>
-    
-            <ng-template #normalBlock>
-              <p class="card-text">Price: {{product.price}} $</p>
-            </ng-template>
-
+          <div *ngIf="product.price < 500; then discountBlock else normalBlock">
           </div>
-
           
-          <div style="width: 40%;">  
-            <form (ngSubmit)="updateProduct(f)" #f="ngForm">
+          <ng-template #discountBlock>
+            <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
+          </ng-template>
+  
+          <ng-template #normalBlock>
+            <p class="card-text">Price: {{product.price}} $</p>
+          </ng-template>
+          
+          <button class="btn btn-primary" style="margin-left: 10px; background-color: black; color: white; border: none;"(click)="onViewDetail(product.id)">View Detail</button>
+          <button class="btn btn-primary" style="margin-left: 10px; background-color: black; color: white; border: none;" (click)="onDelete(product.id)">Delete Product</button>
+          <button class="btn btn-primary" style="margin-left: 10px; margin-top: 10px; background-color: black; color: white; border: none;" (click)="addToCart(product.id, product.name, product.price)">Add to Cart</button>
+        </div>
+         
+      </ng-template>
+  
+      <ng-template #elseBlock>
+        
+  
+        <div style="display: block; height: 500px; box-shadow: 1px 1px 4px lightgray; padding: 20px">      
+          
+          <div>
+            
+            
+            <div style="width: 100%;">
+              <img [src]="product.imageUrl" class="card-img-top" alt="productImg">
+              <h5 class="card-title">{{product.name}}</h5>
+              <p class="card-text">{{product.description}}</p>
+  
+              <div *ngIf="product.price < 500; then discountBlock else normalBlock">
+              </div>
               
-              
-              <div style="width: 100%" class="form-group">
-                <label for="productName">Name</label>
-                <input
-                  class="form-control"
-                  id="productName"
-                  name="name"
-                  type="text"
-                  ngModel
-                  required
-                  #name="ngModel"
-                />
+              <ng-template #discountBlock>
+                <p style="color: red;" class="card-text">Price: {{product.price}} $ * on Discount</p>
+              </ng-template>
+      
+              <ng-template #normalBlock>
+                <p class="card-text">Price: {{product.price}} $</p>
+              </ng-template>
+  
+            </div>
+  
+            
+            <div style="width: 100%;">  
+              <form (ngSubmit)="updateProduct(f)" #f="ngForm">
                 
                 
-                <div
-                  *ngIf="name.invalid && (name.dirty || name.touched)"
-                  class="alert alert-danger"
-                >
-                  <div *ngIf="name.errors && name.errors['required']">
-                  Name is required.
-                  </div>
-                  <div *ngIf="name.errors && name.errors['min length']">
-                    Name must be at least 4 characters long.
+                <div style="width: 100%" class="form-group">
+                  <label for="productName">Name</label>
+                  <input
+                    class="form-control"
+                    id="productName"
+                    name="name"
+                    type="text"
+                    ngModel
+                    required
+                    #name="ngModel"
+                  />
+                  
+                  
+                  <div
+                    *ngIf="name.invalid && (name.dirty || name.touched)"
+                    class="alert alert-danger"
+                  >
+                    <div *ngIf="name.errors && name.errors['required']">
+                    Name is required.
+                    </div>
+                    <div *ngIf="name.errors && name.errors['min length']">
+                      Name must be at least 4 characters long.
+                    </div>
                   </div>
                 </div>
-              </div>
+              
+                
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input
+                    size="30"
+                    class="form-control"
+                    id="price"
+                    type="number"
+                    name="price"
+                    ngModel
+                    required
+                    #price="ngModel"
+                  />
+                </div>
+                
+                
+                <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
+                  Submit
+                </button>
+             
+              </form>
             
-              
-              <div class="form-group">
-                <label for="price">Price</label>
-                <input
-                  size="30"
-                  class="form-control"
-                  id="price"
-                  type="number"
-                  name="price"
-                  ngModel
-                  required
-                  #price="ngModel"
-                />
-              </div>
-              
-              
-              <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
-                Submit
-              </button>
-           
-            </form>
+            </div>
           
           </div>
         
         </div>
       
-      </div>
+      </ng-template>
     
-    </ng-template>
-  
+    </div>
+
+    <div id="detail" style="width: 500px">
+      <h2>Carted Detail</h2>
+      <div *ngFor="let carted of cartedList" style="border:2px solid lightgray; width: 500px">
+        <div style="background-color: rgb(230, 230, 230); padding: 10px; border: none; font-weight: bolder; font-size: 20px;">ID: {{carted.id}}</div>
+        <div style="background-color: rgb(230, 230, 230); padding: 10px; border: none; font-weight: bolder; font-size: 20px;">Name: {{carted.name}}</div>
+        <div style="background-color: rgb(230, 230, 230); padding: 10px; border: none; font-weight: bolder; font-size: 20px;">Price: {{carted.price}}</div>
+      </div>
+      <div style="background-color: black; padding: 10px; border: none; border-radius: 5px; color: white; font-weight: bolder; font-size: 20px;">
+        <h3>Total Price</h3>
+        <span>{{totalPrice}}</span>
+      </div>
+    </div>
+
+
   </div>
 
 </div>
