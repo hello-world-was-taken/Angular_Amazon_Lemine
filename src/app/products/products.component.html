@@ -64,7 +64,7 @@
           
           <button class="btn btn-primary" style="margin-left: 10px; background-color: black; color: white; border: none;"(click)="onViewDetail(product.id)">View Detail</button>
           <button class="btn btn-primary" style="margin-left: 10px; background-color: black; color: white; border: none;" (click)="onDelete(product.id)">Delete Product</button>
-          <button class="btn btn-primary" style="margin-left: 10px; margin-top: 10px; background-color: black; color: white; border: none;" (click)="addToCart(product.id, product.name, product.price)">Add to Cart</button>
+          <button class="btn btn-primary" style="margin-left: 10px; background-color: black; color: white; border: none;" (click)="onDelete(product.id)" (click)="addToCart(product.id, product.name, product.price)">Add to Cart</button>
         </div>
          
       </ng-template>
